@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix | MOA12</title>
+    <link rel="stylesheet" href="tugas pertemuan 7.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #121212; /* Warna latar belakang gelap */
+            color: white; /* Warna teks putih */
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Mengatur tiga kolom */
+            gap: 20px; /* Jarak antara film */
+        }
+
+        .popup {
+            display: none; /* Awalnya sembunyi */
+            position: fixed;
+            left: 50%;
+            top: -100%; /* Mulai di atas layar */
+            transform: translate(-50%, 0); /* Pusatkan pop-up */
+            width: 100%; 
+            max-width: 300px; /* Lebar maksimal pop-up */
+            height: 500px; /* Tinggi tetap untuk pop-up */
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            border-radius: 10px; /* Sudut melengkung */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Bayangan */
+            transition: top 0.5s ease; /* Animasi transisi */
+            text-align: center; /* Pusatkan teks dalam pop-up */
+        }
+
+        .popup-content {
+            background-color: #141414;
+            color: white;
+            padding: 30px; /* Padding lebih besar */
+            border-radius: 10px; /* Sudut melengkung */
+            display: flex;
+            flex-direction: column; /* Mengatur arah flex */
+            align-items: center; /* Pusatkan konten secara horizontal */
+            height: 100%; /* Membuat konten memenuhi tinggi pop-up */
+            justify-content: space-between; /* Mengatur jarak antar elemen */
+        }
+
+        .close-button {
+            background-color: #e50914;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .close-button:hover {
+            background-color: #f40612; /* Warna tombol saat hover */
+        }
+
+        .booking-container {
+            padding: 20px;
+            background-color: #141414;
+            color: white;
+            width: 100%; /* Membuat container memuat lebar penuh */
+        }
+
+        .booking-container h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-align: center; /* Pusatkan judul */
+        }
+
+        .booking-container label {
+            font-size: 16px;
+            font-weight: bold; /* Tebalkan label */
+            color: #e50914; /* Ubah warna label */
+            display: block; /* Agar label berada di atas input */
+            margin: 10px 0 5px; /* Jarak atas dan bawah label */
+            text-align: left; /* Rata kiri */
+        }
+
+        .booking-container input, .booking-container select {
+            padding: 10px;
+            border: 1px solid #e50914;
+            border-radius: 5px;
+            background-color: #222;
+            color: white;
+            width: 100%; /* Membuat input dan select memenuhi lebar penuh */
+            box-sizing: border-box; /* Memastikan padding tidak mempengaruhi lebar */
+        }
+
+        .booking-container button {
+            padding: 10px;
+            background-color: #e50914;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            width: 100%; /* Membuat tombol memenuhi lebar penuh */
+        }
+
+        .booking-container button:hover {
+            background-color: #f40612; /* Warna tombol saat hover */
+        }
+
+        .confirmation-message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #e50914;
+            text-align: center; /* Pusatkan pesan konfirmasi */
+        }
+    </style>
+</head>
+<body>
+    <!-- Header dengan navigasi dan foto profil -->
+    <header>
+        <div class="logo-nav-container">
+            <div class="logo">Netflix</div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">TV Shows</a></li>
+                    <li><a href="#">Movies</a></li>
+                    <li><a href="#">New & Popular</a></li>
+                    <li><a href="#">My List</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="profile">
+            <img src="https://th.bing.com/th/id/OIP.WMM14tV_QL5jH2Qkjb33OAHaEL?rs=1&pid=ImgDetMain" alt="Profile Picture">
+        </div>
+    </header>
+    
+    <!-- Tulisan bergerak (Marquee) -->
+    <div class="marquee">
+        <span>Selamat Datang di Netflix, Nikmati pengalaman menonton yang tiada henti dengan pilihan hiburan tanpa batas!</span>
+    </div>
+
+    <!-- Section Film Populer -->
+    <main>
+        <section class="hero">
+            <img src="https://wallpapers.com/images/hd/meet-the-big-hero-6-dcgobnncu2wgb1rw.jpg" alt="Featured Movie">
+            <div class="hero-content">
+                <h1>Big Hero 6</h1>
+                <button>Play</button>
+                <button>More Info</button>
+            </div>
+        </section>
+
+        <section class="movie-grid">
+            <h2>Popular Movies</h2>
+            <div class="grid">
+                <!-- Tambahkan 9 film dengan img, data-caption, rating, dan tombol Book Ticket -->
+                <div class="movie-item" data-caption="Movie 1: Toy Story">
+                    <img src="https://www.themoviedb.org/t/p/original/9XxMfL0dXH2y1uvmOuIqH5p9gsc.jpg" alt="Movie 1">
+                    <div class="movie-info">
+                        <h3>Toy Story</h3>
+                        <p>Rating: ★★★★☆ (4.5)</p>
+                    </div>
+                    <div class="movie-buttons">
+                        <button class="play-button">Play</button>
+                        <button class="more-info-button">More Info</button>
+                        <button class="book-ticket-button">Book Ticket</button>
+                    </div>
+                </div>
+                <div class="movie-item" data-caption="Movie 2: Black Clover">
+                    <img src="https://th.bing.com/th/id/OIP.W3JRxcuNXXochTVbTSBSlwHaLH?pid=ImgDet&w=185&h=277&c=7&dpr=1,3" alt="Movie 2">
+                    <div class="movie-info">
+                        <h3>Black Clover</h3>
+                        <p>Rating: ★★★★☆ (4.2)</p>
+                    </div>
+                    <div class="movie-buttons">
+                        <button class="play-button">Play</button>
+                        <button class="more-info-button">More Info</button>
+                        <button class="book-ticket-button">Book Ticket</button>
+                    </div>
+                </div>
+                <div class="movie-item" data-caption="Movie 3: Kungfu Panda">
+                    <img src="https://th.bing.com/th/id/OIP.IS6UOrwd2JnHL_ExV8dpxQHaLH?pid=ImgDet&w=185&h=277&c=7&dpr=1,3" alt="Movie 3">
+                    <div class="movie-info">
+                        <h3>Kungfu Panda</h3>
+                        <p>Rating: ★★★★★ (5.0)</p>
+                    </div>
+                    <div class="movie-buttons">
+                        <button class="play-button">Play</button>
+                        <button class="more-info-button">More Info</button>
+                        <button class="book-ticket-button">Book Ticket</button>
+                    </div>
+                </div>
+                <div class="movie-item" data-caption="Movie 4: Naruto The Movie: Legend Stone Gelel">
+                    <img src="https://www.themoviedb.org/t/p/original/itKMldwL6uhUZYO3X78NOFU4zzO.jpg" alt="Movie 4">
+                    <div class="movie-info">
+                        <h3>Naruto The Movie: Legend Stone Gelel</h3>
+                        <p>Rating: ★★★★☆ (4.3)</p>
+                    </div>
+                    <div class="movie-buttons">
+                        <button class="play-button">Play</button>
+                        <button class="more-info-button">More Info</button>
+                        <button class="book-ticket-button">Book Ticket</button>
+                    </div>
+                </div>
+                <div class="movie-item" data-caption="Movie 5: Doraemon: Nobita and The Space">
+                    <img src="https://www.themoviedb.org/t/p/original/pSQYgFelFjaq3ZumM6cbyPk9ixr.jpg" alt="Movie 5">
+                    <div class="movie-info">
+                        <h3>Doraemon: Nobita and The Space</h3>
+                        <p>Rating: ★★★★☆ (4.4)</p>
+                    </div>
+                    <div class="movie-buttons">
+                        <button class="play-button">Play</button>
+                        <button class="more-info-button">More Info</button>
+                        <button class="book-ticket-button">Book Ticket</button>
+                    </div>
+                </div>
+                <div class="movie-item" data-caption="Movie 6: Finding Nemo">
+                    <img src="https://th.bing.com/th/id/OIP.i97adbSs_dLEjc5uT_vpFgHaLH?rs=1&pid=ImgDetMain" alt="Movie 6">
+                    <div class="movie-info">
+                        <h3>Finding Nemo</h3>
+                        <p>Rating: ★★★★☆ (4.5)</p>
+                    </div>
+                    <div class="movie-buttons">
+                        <button class="play-button">Play</button>
+                        <button class="more-info-button">More Info</button>
+                        <button class="book-ticket-button">Book Ticket</button>
+                    </div>
+                </div>
+                <div class="movie-item" data-caption="Movie 7: Spirited Away">
+                    <img src="https://th.bing.com/th/id/OIP.MbRhXV46UoTkWvhUu2_6vwAAAA?pid=ImgDet&w=185&h=277&c=7&dpr=1,3" alt="Movie 7">
+                    <div class="movie-info">
+                        <h3>Spirited Away</h3>
+                        <p>Rating: ★★★★★ (4.8)</p>
+                    </div>
+                    <div class="movie-buttons">
+                        <button class="play-button">Play</button>
+                        <button class="more-info-button">More Info</button>
+                        <button class="book-ticket-button">Book Ticket</button>
+                    </div>
+                </div>
+                <div class="movie-item" data-caption="Movie 8: Moana">
+                    <img src="https://th.bing.com/th/id/OIP.96djkwI0T2mOKJcf3a7SpgHaLH?pid=ImgDet&w=185&h=277&c=7&dpr=1,3" alt="Movie 8">
+                    <div class="movie-info">
+                        <h3>Moana</h3>
+                        <p>Rating: ★★★★☆ (4.6)</p>
+                    </div>
+                    <div class="movie-buttons">
+                        <button class="play-button">Play</button>
+                        <button class="more-info-button">More Info</button>
+                        <button class="book-ticket-button">Book Ticket</button>
+                    </div>
+                </div>
+                <div class="movie-item" data-caption="Movie 9: The Lion King">
+                    <img src="https://th.bing.com/th/id/OIP.WVNts89KxsyLuCnwcCAoRAHaLH?pid=ImgDet&w=185&h=277&c=7&dpr=1,3" alt="Movie 9">
+                    <div class="movie-info">
+                        <h3>The Lion King</h3>
+                        <p>Rating: ★★★★★ (5.0)</p>
+                    </div>
+                    <div class="movie-buttons">
+                        <button class="play-button">Play</button>
+                        <button class="more-info-button">More Info</button>
+                        <button class="book-ticket-button">Book Ticket</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pop-up untuk Booking Tiket -->
+        <div class="popup" id="popup">
+            <div class="popup-content">
+                <div class="booking-container">
+                    <h2>Book Your Ticket</h2>
+                    <form id="booking-form">
+                        <label for="movie-name">Movie Name:</label>
+                        <input type="text" id="movie-name" name="movie-name" readonly required>
+
+                        <label for="customer-name">Your Name:</label>
+                        <input type="text" id="customer-name" name="customer-name" required>
+
+                        <label for="seat-number">Seat Number:</label>
+                        <select id="seat-number" name="seat-number" required>
+                            <option value="" disabled selected>Select a seat</option>
+                            <!-- Pilihan kursi dari A1 sampai H4 -->
+                            <option value="A1">A1</option>
+                            <option value="A2">A2</option>
+                            <option value="A3">A3</option>
+                            <option value="A4">A4</option>
+                            <option value="B1">B1</option>
+                            <option value="B2">B2</option>
+                            <option value="B3">B3</option>
+                            <option value="B4">B4</option>
+                            <option value="C1">C1</option>
+                            <option value="C2">C2</option>
+                            <option value="C3">C3</option>
+                            <option value="C4">C4</option>
+                            <option value="D1">D1</option>
+                            <option value="D2">D2</option>
+                            <option value="D3">D3</option>
+                            <option value="D4">D4</option>
+                            <option value="E1">E1</option>
+                            <option value="E2">E2</option>
+                            <option value="E3">E3</option>
+                            <option value="E4">E4</option>
+                            <option value="F1">F1</option>
+                            <option value="F2">F2</option>
+                            <option value="F3">F3</option>
+                            <option value="F4">F4</option>
+                            <option value="G1">G1</option>
+                            <option value="G2">G2</option>
+                            <option value="G3">G3</option>
+                            <option value="G4">G4</option>
+                            <option value="H1">H1</option>
+                            <option value="H2">H2</option>
+                            <option value="H3">H3</option>
+                            <option value="H4">H4</option>
+                        </select>
+
+                        <button type="submit">Book Ticket</button>
+                    </form>
+                    <button class="close-button" id="close-popup">Close</button>
+                    <div class="confirmation-message" id="confirmation-message"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const bookingForm = document.getElementById('booking-form');
+        const movieNameInput = document.getElementById('movie-name');
+        const confirmationMessage = document.getElementById('confirmation-message');
+        const popup = document.getElementById('popup');
+        const closePopupButton = document.getElementById('close-popup');
+
+        document.querySelectorAll('.book-ticket-button').forEach(button => {
+            button.addEventListener('click', function () {
+                const movieItem = button.closest('.movie-item');
+                const movieName = movieItem.querySelector('h3').textContent;
+                movieNameInput.value = movieName; // Mengisi nama film ke input
+                popup.style.display = 'flex'; // Menampilkan pop-up
+                setTimeout(() => {
+                    popup.style.top = '20%'; // Menarik pop-up dari atas
+                }, 10);
+            });
+        });
+
+        closePopupButton.addEventListener('click', function () {
+            popup.style.top = '-100%'; // Menyembunyikan pop-up ke atas
+            setTimeout(() => {
+                popup.style.display = 'none'; // Menyembunyikan pop-up setelah animasi
+            }, 500);
+            confirmationMessage.textContent = ''; // Menghapus pesan konfirmasi
+            bookingForm.reset(); // Mengatur ulang formulir
+        });
+
+        bookingForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // Mencegah pengiriman formulir
+            const customerName = document.getElementById('customer-name').value;
+            const seatNumber = document.getElementById('seat-number').value;
+            const movieName = movieNameInput.value;
+
+            confirmationMessage.textContent = `Ticket booked for ${customerName} for the movie "${movieName}" at seat ${seatNumber}.`;
+            bookingForm.reset(); // Mengatur ulang formulir setelah pengiriman
+        });
+    </script>
+</body>
+</html>
